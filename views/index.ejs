@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <style>
+       /* styles.css */
+
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #fffcfc;
+background-image: url("https://www.transparenttextures.com/patterns/diamond-upholstery.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.search-form button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button svg {
+    width: 20px;
+    fill: #fff;
+    margin-left: 8px;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+.movies-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.movies-list li {
+    width: calc(50% - 10px);
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    box-sizing: border-box;
+}
+
+.movies-list li:hover {
+    transform: translateY(-5px);
+}
+
+.movie-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.movie-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-info h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.movie-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+.movie-cont{
+    width: 730px;
+    height: 200px;
+    border-radius: 20px;
+    background-color: #ccc;
+    padding: 10px;
+    margin: 10px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .movies-list li {
+        width: calc(50% - 10px);
+    }
+    .movie-cont{
+        width: 100px;
+        height: 50px;
+        border-radius: 20px;
+        background-color: #ccc;
+        padding: 5px;
+        margin: 5px;
+    }
+
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+
+    .movies-list li {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .movie-cont{
+        width: 300px;
+        height: 150px;
+        border-radius: 20px;
+        background-color: #ccc;
+        padding: 5px;
+        margin: 10px;
+    }
+}
+
+.logo{
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+}
+
+
+
+    </style>
+    <div class="container">
+        
+        <img src="silo logo white.jpg" alt="" srcset="" class="logo">
+        <div class="movie-cont">
+        <h1>Cine Search</h1>
+        <form action="/search" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Search for a movie..." required>
+            <button type="submit"><!-- search.svg -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor" d="M21.71 20.29l-5.63-5.63A7.96 7.96 0 0 0 18 10c0-4.42-3.58-8-8-8s-8 3.58-8 8 3.58 8 8 8c1.7 0 3.26-.52 4.58-1.41l5.63 5.63a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM4 10c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z"/>
+                </svg>
+                </button>
+        </form></div>
+        <ul class="movies-list">
+            <% movies.forEach(movie => { %>
+                <li>
+                    <a href="/movie/<%= movie.imdbID %>">
+                        <div class="movie-card">
+                            <img src="<%= movie.Poster !== 'N/A' ? movie.Poster : '/no-poster.jpg' %>" alt="<%= movie.Title %> Poster" class="movie-poster">
+                            <div class="movie-info">
+                                <h2><%= movie.Title %> (<%= movie.Year %>)</h2>
+                                <p><strong>Type:</strong> <%= movie.Type %></p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            <% }) %>
+        </ul>
+        <% if (error) { %>
+            <p class="error-message"><%= error %></p>
+        <% } %>
+    </div>
+</body>
+</html>
